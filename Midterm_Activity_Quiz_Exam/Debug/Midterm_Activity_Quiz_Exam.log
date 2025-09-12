@@ -1,0 +1,15 @@
+﻿  main.cpp
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(200,30): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(201,47): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(201,30): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(202,41): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(326,28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(327,35): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(629,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(641,28): warning C4477: 'printf' : format string '%f' requires an argument of type 'double', but variadic argument 1 has type 'int'
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(642,28): warning C4477: 'printf' : format string '%f' requires an argument of type 'double', but variadic argument 1 has type 'const int'
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(643,28): warning C4477: 'printf' : format string '%f' requires an argument of type 'double', but variadic argument 1 has type 'int'
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(660,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Midterm_Activity_Quiz_Exam\main.cpp(842,45): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  Midterm_Activity_Quiz_Exam.vcxproj -> C:\Users\Andrew\source\repos\Midterm_Activity_Quiz_Exam\Debug\Midterm_Activity_Quiz_Exam.exe
+          1 file(s) copied.
