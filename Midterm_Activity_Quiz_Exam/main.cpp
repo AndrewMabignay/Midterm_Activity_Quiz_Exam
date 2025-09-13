@@ -50,7 +50,8 @@ bool isStart = false; // START GAME
 bool isRestart = false; // RESTART GAME
 bool isPaused = false; // PAUSE PROGRAM
 
-
+// ACTIVITY # 1 | VARIABLES
+bool isWallUpRightOpen = false;
 
 GLuint loadTexture(const char* filename) {
     int width, height, nrChannels;
@@ -93,7 +94,7 @@ void renderBitmapString(float x, float y, const char* string)
 // USER | USER SPRITES
 GLuint userWalkLeft[3], userWalkRight[3];
 int currentFrame = 0;
-int frameDelay = 0;
+int frameDelay = 10;
 int frameCounter = 0;
 
 // USER | USER FUNCTION
@@ -204,6 +205,57 @@ void enemy()
     }
 }
 
+// ---------------------------- ACTIVITY: ADDITIONAL PLATFORM ----------------------------
+// ACTIVITY: WALL MIDDLE UP
+void wallMiddleUp()
+{
+    glBegin(GL_QUADS);
+        glColor3f(0.396f, 0.263f, 0.129f); // DARK BROWN
+        glVertex2f(9.5f, 13.5f); // BOTTOM LEFT
+        glVertex2f(10.5f, 13.5f); // BOTTOM RIGHT
+        glVertex2f(10.5f, 20.0f); // TOP RIGHT
+        glVertex2f(9.5f, 20.0f); // TOP LEFT
+    glEnd();
+}
+
+// ACTIVITY: KEY
+void key()
+{
+    glBegin(GL_QUADS);
+        glColor3f(0.396f, 0.263f, 0.129f); // DARK BROWN
+        glVertex2f(2.5f, 18.0f); // BOTTOM LEFT
+        glVertex2f(3.5f, 18.0f); // BOTTOM RIGHT
+        glVertex2f(3.5f, 19.0f); // TOP RIGHT
+        glVertex2f(2.5f, 19.0f); // TOP LEFT
+    glEnd();
+}
+
+// ACTIVITY: WALL LEFT UP
+void wallLeftUp()
+{
+    glBegin(GL_QUADS);
+        glColor3f(0.396f, 0.263f, 0.129f); // DARK BROWN
+        glVertex2f(0.0f, 19.5f); // BOTTOM LEFT
+        glVertex2f(9.5f, 19.5f); // BOTTOM RIGHT
+        glVertex2f(9.5f, 20.0f); // TOP RIGHT
+        glVertex2f(0.0f, 20.0f); // TOP LEFT
+    glEnd();
+}
+
+// ACTIVITY: WALL RIGHT UP
+void wallRightUp()
+{
+    glBegin(GL_QUADS);
+        glColor3f(0.0f, 0.0f, 0.1f); // DARK BROWN
+        glVertex2f(10.5f, 19.5f); // BOTTOM LEFT
+        glVertex2f(20.0f, 19.5f); // BOTTOM RIGHT
+        glVertex2f(20.0f, 20.0f); // TOP RIGHT
+        glVertex2f(10.5f, 20.0f); // TOP LEFT
+    glEnd();
+}
+
+
+// ----------------------------  ----------------------------
 void blackOverlay()
 {
     // BLACK
@@ -307,7 +359,15 @@ void objectProgram()
         middleGround();
 
         // CLOSE PLATFORM
-        closePlatform();
+        //closePlatform();
+
+        // ACTIVITY# 1 | WALL MIDDLE UP & KEY
+        if (!isWallUpRightOpen) key();
+
+        wallMiddleUp();
+        wallLeftUp();
+        
+        if (!isWallUpRightOpen) wallRightUp();
     }
 
 
@@ -697,6 +757,113 @@ void isGameOverLogicFunction()
     printf("Game Over: %s\n", isGameOver ? "true" : "false");
 }
 
+// ADDITIONAL UPDATE
+// --------------------------- ACTIVITE #1 | UPDATE ---------------------------
+// WALL MIDDLE UP : COLLISION
+void wallMiddleUpCollision()
+{
+    // wall bounds (same as wallMiddleUp)
+    const float wallLeft = 9.5f;
+    const float wallRight = 10.5f;
+    const float wallBottom = 13.5f;
+    const float wallTop = 20.0f;
+
+    // user bounds (same as other uses)
+    float userLeft = userX + 2.0f;
+    float userRight = userX + 3.0f;
+    float userBottom = userY + 2.0f;
+    float userTop = userY + 3.0f;
+
+    if (userLeft < wallRight && userRight > wallLeft &&
+        userBottom < wallTop && userTop > wallBottom)
+    {
+        // LEFT COLLISION
+            if (userRight > wallLeft && userLeft < wallLeft) {
+                userX = wallLeft - 3.0f; // align sa left side ng wall
+            }
+
+        // RIGHT COLLISION
+            else if (userLeft < wallRight && userRight > wallRight) {
+                userX = wallRight - 2.0f; // align sa right side ng wall
+            }
+
+        // BOTTOM COLLISION (pag tumama sa ilalim ng wall habang tumatalon)
+        if (velocityY > 0.0f && userTop > wallBottom && userBottom < wallBottom) {
+            userY = wallBottom - 3.0f;
+            velocityY = 0.0f;
+        }
+    }
+}
+
+// WALL LEFT UP : COLLISION
+void wallLeftUpCollision()
+{
+    // WALL BOUNDS
+    const float wallLeft = 0.5f;
+    const float wallRight = 9.5f;
+    const float wallBottom = 19.5f;
+    const float wallTop = 20.0f;
+
+    // USER BOUNDS
+    float userLeft = userX + 2.0f;
+    float userRight = userX + 3.0f;
+    float userBottom = userY + 2.0f;
+    float userTop = userY + 3.0f;
+
+    // JUMP USER TO WALL BOTTOM
+    if (userTop >= wallBottom && userBottom < wallBottom && velocityY > 0.0f) {
+        userY = wallBottom - 3.0f;
+        velocityY = 0.0f;
+    }
+}
+
+// WALL RIGHT UP : COLLISION
+void wallRightUpCollision()
+{
+    // WALL BOUNDS
+    const float wallLeft = 10.5f;
+    const float wallRight = 20.0f;
+    const float wallBottom = 19.5f;
+    const float wallTop = 20.0f;
+
+    // USER BOUNDS
+    float userLeft = userX + 2.0f;
+    float userRight = userX + 3.0f;
+    float userBottom = userY + 2.0f;
+    float userTop = userY + 3.0f;
+
+    // JUMP USER TO WALL BOTTOM
+    if (userTop >= wallBottom && userBottom < wallBottom && velocityY > 0.0f) {
+        userY = wallBottom - 3.0f;  
+        velocityY = 0.0f;
+    }
+}
+
+// KEY : COLLISION
+void keyCollision()
+{
+    // WALL BOUNDS
+    const float keyLeft = 2.5f;
+    const float keyRight = 3.5f;
+    const float keyBottom = 18.0f;
+    const float keyTop = 19.0f;
+
+    // USER BOUNDS
+    float userLeft = userX + 2.0f;
+    float userRight = userX + 3.0f;
+    float userBottom = userY + 2.0f;
+    float userTop = userY + 3.0f;
+
+    // JUMP USER TO WALL BOTTOM
+    // AABB collision check (correct axis checks)
+    if (
+        userLeft < keyRight && userRight > keyLeft &&
+        userBottom < keyTop && userTop > keyBottom
+    ) {
+        isWallUpRightOpen = true;
+        printf("Wall Open: %s\n", isWallUpRightOpen ? "true" : "false");
+    }
+}
 
 
 // UPDATE FUNCTION MAIN
@@ -758,8 +925,11 @@ void update(int value)
     platformCollision();
 
     // SWITCH COLLISION
-    switchCollision();
-
+    // switchCollision();
+    wallMiddleUpCollision();
+    wallLeftUpCollision();
+    wallRightUpCollision();
+    keyCollision();
 
     glutPostRedisplay();
     glutTimerFunc(16, update, 0);
